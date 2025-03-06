@@ -7,7 +7,7 @@
 <body>
     <div id="timeline"></div>
     <script>
-        fetch('https://x-api-proxy-orcin.vercel.app/api/tweets')
+        fetch('https://x-api-proxy-three.vercel.app/api/tweets')
         .then(response => {
             if (!response.ok) throw new Error('Proxy request failed: ' + response.status);
             return response.json();

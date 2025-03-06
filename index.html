@@ -2,9 +2,27 @@
 <html>
 <head>
     <title>MSFT365Status Timeline</title>
-    <style>body { margin: 0; }</style>
+    <style>body { margin: 0; font-family: Arial; }</style>
 </head>
 <body>
-    <a class="twitter-timeline" data-height="1000" data-width="600" data-dnt="true"  data-theme="dark" href="https://twitter.com/MSFT365Status?ref_src=twsrc%5Etfw">Tweets by MSFT365Status</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <div id="timeline"></div>
+    <script>
+        fetch('https://your-proxy.vercel.app/api/tweets')
+        .then(response => {
+            if (!response.ok) throw new Error('Proxy request failed: ' + response.status);
+            return response.json();
+        })
+        .then(data => {
+            if (!data.data) throw new Error('No tweets found: ' + JSON.stringify(data));
+            const tweets = data.data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+            const timeline = document.getElementById('timeline');
+            tweets.forEach(tweet => {
+                timeline.innerHTML += `<p>${tweet.text} <br><small>${new Date(tweet.created_at).toLocaleString()}</small></p>`;
+            });
+        })
+        .catch(error => {
+            document.getElementById('timeline').innerHTML = 'Error: ' + error.message;
+        });
+    </script>
 </body>
 </html>
